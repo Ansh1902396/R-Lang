@@ -2,20 +2,20 @@ package lexer
 
 import "github.com/Ansh1902396/go-interpreter/token"
 
-type lexer struct {
+type Lexer struct {
 	input        string
 	position     int  // current position in input (points to current char)
 	readPosition int  // current reading position in input (after current char)
 	ch           byte // current char under examination
 }
 
-func New(input string) *lexer {
-	l := &lexer{input: input}
+func New(input string) *Lexer {
+	l := &Lexer{input: input}
 	l.readChar()
 	return l
 }
 
-func (l *lexer) readChar() {
+func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
 	} else {
@@ -27,7 +27,7 @@ func (l *lexer) readChar() {
 	l.readPosition += 1
 }
 
-func (l *lexer) NextToken() token.Token {
+func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
 	l.skipWhitespace()
@@ -101,13 +101,13 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
-func (l *lexer) skipWhitespace() {
+func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
 }
 
-func (l *lexer) peekChar() byte {
+func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0
 	} else {
@@ -119,7 +119,7 @@ func isLetter(ch byte) bool {
 	return ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ch == '_' || ch == '$' || ch == '@' || ch == '#'
 }
 
-func (l *lexer) readIdentifier() string {
+func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
 		l.readChar()
@@ -131,7 +131,7 @@ func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
 
-func (l *lexer) readNumber() string {
+func (l *Lexer) readNumber() string {
 	position := l.position
 	for isDigit(l.ch) {
 		l.readChar()
