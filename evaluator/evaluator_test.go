@@ -13,8 +13,11 @@ func TestEvalIntegerExpression(t *testing.T) {
 		input    string
 		expected int64
 	}{
+
 		{"5", 5},
 		{"10", 10},
+		{"-5", -5},
+		{"-10", -10},
 	}
 
 	for _, tt := range tests {
@@ -34,14 +37,26 @@ func TestEvalBooleanExpression(t *testing.T) {
 
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
-		result, ok := evaluated.(*object.Boolean)
-		if !ok {
-			t.Errorf("object is not Boolean. got=%T (%+v)", evaluated, evaluated)
-			continue
-		}
-		if result.Value != tt.expected {
-			t.Errorf("Object has wrong value. got =%t , want=%t", result.Value, tt.expected)
-		}
+		testBooleanObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestEvalBangOperator(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"!true", false},
+		{"!false", true},
+		{"!5", false},
+		{"!!true", true},
+		{"!!false", false},
+		{"!!5", true},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		testBooleanObject(t, evaluated, tt.expected)
 	}
 }
 
@@ -51,6 +66,19 @@ func testEval(input string) object.Object {
 	program := p.ParseProgram()
 
 	return Eval(program)
+}
+
+func testBooleanObject(t *testing.T, obj object.Object, expected bool) bool {
+	result, ok := obj.(*object.Boolean)
+	if !ok {
+		t.Errorf("object is not Boolean. got=%T (%+v)", obj, obj)
+		return false
+	}
+	if result.Value != expected {
+		t.Errorf("Object has wrong value. got =%t , want=%t", result.Value, expected)
+		return false
+	}
+	return true
 }
 
 func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
