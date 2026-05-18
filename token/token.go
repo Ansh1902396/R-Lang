@@ -45,6 +45,8 @@ const (
 	ELSE     = "ELSE"
 	RETURN   = "RETURN"
 
+	CALL = "CALL"
+
 	EQ     = "=="
 	NOT_EQ = "!="
 )
