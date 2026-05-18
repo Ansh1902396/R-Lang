@@ -8,6 +8,19 @@ import (
 	"github.com/Ansh1902396/go-interpreter/parser"
 )
 
+func TestStringConcatentation(t *testing.T) {
+	input := `"Hello" + " " + "World!"`
+
+	evaluated := testEval(input, object.NewEnvironment())
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T (%+v)", evaluated, evaluated)
+	}
+	if str.Value != "Hello World!" {
+		t.Errorf("String has wrong value. got=%q", str.Value)
+	}
+}
+
 func TestEvalIntegerExpression(t *testing.T) {
 	tests := []struct {
 		input    string
@@ -33,6 +46,20 @@ func TestEvalIntegerExpression(t *testing.T) {
 	for _, tt := range tests {
 		evaluated := testEval(tt.input, object.NewEnvironment())
 		testIntegerObject(t, evaluated, tt.expected)
+	}
+}
+
+func TestStringLiteral(t *testing.T) {
+	input := `"Hello, World!"`
+
+	evaluated := testEval(input, object.NewEnvironment())
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	if str.Value != "Hello, World!" {
+		t.Errorf("String has wrong value. got=%q", str.Value)
 	}
 }
 
@@ -86,6 +113,10 @@ func TestErrorHandling(t *testing.T) {
 		{
 			"5 + true;",
 			"type mismatch: INTEGER + BOOLEAN",
+		},
+		{
+			`"Hello" - "World"`,
+			"unknown operator: STRING - STRING",
 		},
 		{
 			"5 + true; 5;",
