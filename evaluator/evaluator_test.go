@@ -23,6 +23,28 @@ func TestEvalIntegerExpression(t *testing.T) {
 	}
 }
 
+func TestEvalBooleanExpression(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{"true", true},
+		{"false", false},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		result, ok := evaluated.(*object.Boolean)
+		if !ok {
+			t.Errorf("object is not Boolean. got=%T (%+v)", evaluated, evaluated)
+			continue
+		}
+		if result.Value != tt.expected {
+			t.Errorf("Object has wrong value. got =%t , want=%t", result.Value, tt.expected)
+		}
+	}
+}
+
 func testEval(input string) object.Object {
 	l := lexer.New(input)
 	p := parser.New(l)
