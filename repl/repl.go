@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/Ansh1902396/go-interpreter/evaluator"
+	"github.com/Ansh1902396/go-interpreter/object"
 	"github.com/Ansh1902396/go-interpreter/parser"
 
 	"github.com/Ansh1902396/go-interpreter/lexer"
@@ -28,16 +30,20 @@ __,__
 `
 
 func Start(in io.Reader, out io.Writer) {
-	fmt.Printf(PROMPT)
 	scanner := bufio.NewScanner(in)
+	environment := object.NewEnvironment()
 
 	for {
-		fmt.Printf(PROMPT)
+		fmt.Fprint(out, PROMPT)
 		scanned := scanner.Scan()
 		if !scanned {
 			return
 		}
 		line := scanner.Text()
+		if strings.TrimSpace(line) == "exit" {
+			return
+		}
+
 		l := lexer.New(line)
 		p := parser.New(l)
 		program := p.ParseProgram()
@@ -47,7 +53,7 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, environment)
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
