@@ -8,6 +8,7 @@ type ObjectType string
 
 const (
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
+	ERROR_OBJ        = "ERROR"
 	INTEGER_OBJ      = "INTEGER"
 	BOOLEAN_OBJ      = "BOOLEAN"
 	NULL_OBJ         = "NULL"
@@ -16,6 +17,10 @@ const (
 type Object interface {
 	Type() ObjectType
 	Inspect() string
+}
+
+type Error struct {
+	Message string
 }
 
 type Integer struct {
@@ -44,6 +49,14 @@ func (n *Null) Type() ObjectType {
 }
 func (i *Integer) Inspect() string {
 	return fmt.Sprintf("%d", i.Value)
+}
+
+func (e *Error) Type() ObjectType {
+	return ERROR_OBJ
+}
+
+func (e *Error) Inspect() string {
+	return "FUCK !! RAHULL: " + e.Message
 }
 
 func (b *Boolean) Inspect() string {
