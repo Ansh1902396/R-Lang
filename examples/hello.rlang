@@ -1,0 +1,8 @@
+let greeting = "Hello from R-Lang";
+puts(greeting);
+
+let add = fn(a, b) {
+	a + b;
+};
+
+puts(add(20, 22));
