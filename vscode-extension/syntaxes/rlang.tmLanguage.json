@@ -1,0 +1,105 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "R-Lang",
+  "scopeName": "source.rlang",
+  "patterns": [
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#builtins"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.rlang",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.rlang",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.rlang",
+          "match": "\\b(if|else|return)\\b"
+        },
+        {
+          "name": "storage.type.function.rlang",
+          "match": "\\bfn\\b"
+        },
+        {
+          "name": "storage.modifier.rlang",
+          "match": "\\blet\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.rlang",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.rlang",
+          "match": "\\b(len|first|last|rest|push|pop|puts)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.rlang",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.rlang",
+          "match": "==|!=|=|\\+|-|\\*|/|!|<|>"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.rlang",
+          "match": "[,;:]"
+        },
+        {
+          "name": "punctuation.section.rlang",
+          "match": "[\\[\\]{}()]"
+        }
+      ]
+    }
+  }
+}

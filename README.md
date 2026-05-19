@@ -16,6 +16,12 @@ R-Lang source files use the `.rlang` extension.
 go run . examples/hello.rlang
 ```
 
+Run a larger algorithm example:
+
+```sh
+go run . examples/binary_search.rlang
+```
+
 After installing or downloading a release binary:
 
 ```sh
@@ -32,3 +38,16 @@ git push origin v0.1.0
 ```
 
 The release workflow runs tests, builds macOS, Linux, and Windows binaries, and attaches them to the GitHub Release.
+
+## VS Code Syntax Highlighting
+
+This repo includes a local VS Code extension for `.rlang` files in `vscode-extension/`.
+
+macOS/Linux:
+
+```sh
+mkdir -p ~/.vscode/extensions
+ln -s "$(pwd)/vscode-extension" ~/.vscode/extensions/rlang-syntax
+```
+
+Then reload VS Code and open a `.rlang` file.

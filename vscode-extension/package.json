@@ -1,0 +1,35 @@
+{
+  "name": "rlang-syntax",
+  "displayName": "R-Lang Syntax",
+  "description": "Syntax highlighting for R-Lang source files.",
+  "version": "0.1.0",
+  "publisher": "rlang",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rlang",
+        "aliases": [
+          "R-Lang",
+          "rlang"
+        ],
+        "extensions": [
+          ".rlang"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rlang",
+        "scopeName": "source.rlang",
+        "path": "./syntaxes/rlang.tmLanguage.json"
+      }
+    ]
+  }
+}

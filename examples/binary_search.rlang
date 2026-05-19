@@ -1,0 +1,24 @@
+let binarySearch = fn(items, target, low, high) {
+	if (low > high) {
+		return -1;
+	}
+
+	let mid = (low + high) / 2;
+	let current = items[mid];
+
+	if (current == target) {
+		return mid;
+	} else {
+		if (current > target) {
+			return binarySearch(items, target, low, mid - 1);
+		} else {
+			return binarySearch(items, target, mid + 1, high);
+		}
+	}
+};
+
+let numbers = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
+
+puts("Binary search");
+puts(binarySearch(numbers, 23, 0, len(numbers) - 1));
+puts(binarySearch(numbers, 7, 0, len(numbers) - 1));
