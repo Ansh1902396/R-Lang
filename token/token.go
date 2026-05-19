@@ -23,6 +23,8 @@ const (
 	//Delimiters
 	COMMA     = ","
 	SEMICOLON = ";"
+	LBRACKET  = "["
+	RBRACKET  = "]"
 
 	LPAREN = "("
 	RPAREN = ")"
