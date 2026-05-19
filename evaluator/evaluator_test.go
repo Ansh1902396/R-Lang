@@ -378,6 +378,43 @@ func TestFunctionApplication(t *testing.T) {
 	}
 }
 
+func TestHashLiterals(t *testing.T) {
+	input := `let two = "two"; 
+	{
+	"one": 10 - 9,
+	two: 1 + 1,
+	"thr" + "ee": 6 / 2,
+	4: 4,
+	true: 5
+	}`
+	evaluated := testEval(input, object.NewEnvironment())
+	hash, ok := evaluated.(*object.Hash)
+	if !ok {
+		t.Fatalf("Eval didn't return Hash. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	expected := map[object.HashKey]int64{
+		(&object.String{Value: "one"}).HashKey():   1,
+		(&object.String{Value: "two"}).HashKey():   2,
+		(&object.String{Value: "three"}).HashKey(): 3,
+		(&object.Integer{Value: 4}).HashKey():      4,
+		(&object.Boolean{Value: true}).HashKey():   5,
+	}
+
+	if len(hash.Pairs) != len(expected) {
+		t.Fatalf("Hash has wrong number of pairs. got=%d, want=%d", len(hash.Pairs), len(expected))
+	}
+
+	for expectedKey, expectedValue := range expected {
+		pair, ok := hash.Pairs[expectedKey]
+		if !ok {
+			t.Errorf("no pair for given key in Pairs. got=%+v", hash.Pairs)
+		}
+
+		testIntegerObject(t, pair.Value, expectedValue)
+	}
+}
+
 func TestClosures(t *testing.T) {
 	input := `let newAdder = fn(x) {
 	fn(y) { x + y };
